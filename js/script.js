@@ -13,30 +13,33 @@ $('#title').change(function (){
     }
 });
 
-// Wonky way to filter the Tshirt options - gets stuck if you change your mind and click another option 
+// Tshirt color option filter
 $('#design').change(function (){
     if ($('#design').val() == 'js puns') {
         $('#color option[value="tomato"]').hide();
         $('#color option[value="steelblue"]').hide();
         $('#color option[value="dimgrey"]').hide();
-   
+        $('#color option[value="cornflowerblue"]').show();
+        $('#color option[value="darkslategrey"]').show();
+        $('#color option[value="gold"]').show();
+    
+    
     }   else if ($('#design').val() == 'heart js') {
             $('#color option[value="cornflowerblue"]').hide();
             $('#color option[value="darkslategrey"]').hide();
             $('#color option[value="gold"]').hide();
-        }  else {
-        $('#color').show();
+            $('#color option[value="tomato"]').show();
+            $('#color option[value="steelblue"]').show();
+            $('#color option[value="dimgrey"]').show();
+        }  else if ($('#design').val() != 'heart js' && $('#design').val() != 'js puns'){
+                $('#color option[value="cornflowerblue"]').show();
+                $('#color option[value="darkslategrey"]').show();
+                $('#color option[value="gold"]').show();
+                $('#color option[value="tomato"]').show();
+                $('#color option[value="steelblue"]').show();
+                $('#color option[value="dimgrey"]').show();
     }
 });
-
-// These add classes to the design and color options to make selection easier
-$('#design option').addClass(function() {
-    return this.value;
-  });
-  
-  $('#color option').addClass(function() {
-    return this.value;
-  });
 
 
 
