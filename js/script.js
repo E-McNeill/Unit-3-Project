@@ -48,6 +48,8 @@ bitCoin.addClass('Bitcoin');
 // Paypal and bitcoin details hidden on load
 $('.PayPal').hide();
 $('.Bitcoin').hide();
+// Makes the 'select method' option non clickable. 
+$('#payment option[value="select_method"]').attr('disabled', true);
 
 $('#payment').change(function (){
     if ($('#payment').val() == 'paypal') { //If 'paypal' option is chosen, bitcoin and cc details removed.
@@ -58,8 +60,7 @@ $('#payment').change(function (){
     } else if ($('#payment').val() == 'bitcoin') { // If 'bitcoin' is chosen, cc and paypal details removed.
             $('.credit-card').hide();
             $('.PayPal').hide();
-            $('.Bitcoin').show();
-    }  else $('.credit-card').show() && $('.Bitcoin').hide() && $('.PayPal').hide(); // When 'select payment method'is chosen, only CC info shows. 
-                 
+            $('.Bitcoin').show(); 
+    }  else $('.credit-card').show() ;                
 
 });
