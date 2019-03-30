@@ -64,3 +64,37 @@ $('#payment').change(function (){
     }  else $('.credit-card').show() ;                
 
 });
+//Field Validation Section
+//Removes exisitng CSS on the fields for each submit
+function removeCSS () {
+    $('.name-error').remove();
+    $('.mail-error').remove();
+    $('#name').css('border', ''); 
+  $('#mail').css('border', '');
+  }
+  
+  //Validates if user has entered in a name
+  function validateName() {
+  let x = $('#name').val();
+    if (x.length < 1) {
+  $('#name').css('border', 'solid 2px red');
+  $('#name').after('<p class = "name-error" style="background-color:Tomato;">Please enter your name.</p>');
+      return false;
+        }
+  }
+  
+  //Validates if the user has entered in an email address
+  function validateEmail() {
+  let mail = $('#mail').val(); 
+  let regex = new RegExp(/^[^@]+@[^@.]+\.[a-z]+$/i);
+  let result = regex.test(mail);
+   if (result == false) {
+        $('#mail').after('<p class = "mail-error" style="background-color:Tomato;">Enter a valid email.</p>');  
+        $('#mail').css('border', 'solid 2px red');   
+  return false;
+        } 
+  }
+  //Launches the functions that validate the form fields
+  $('form').submit(removeCSS);
+  $('form').submit(validateName);
+  $('form').submit(validateEmail);
