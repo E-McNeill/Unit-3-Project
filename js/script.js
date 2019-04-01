@@ -62,39 +62,87 @@ $('#payment').change(function (){
             $('.PayPal').hide();
             $('.Bitcoin').show(); 
     }  else $('.credit-card').show() ;                
-
+        
 });
 //Field Validation Section
 //Removes exisitng CSS on the fields for each submit
 function removeCSS () {
     $('.name-error').remove();
     $('.mail-error').remove();
+    $('.cc-num-error').remove();
+    $('.cc-zip-error').remove();
+    $('.cc-cvv-error').remove();
     $('#name').css('border', ''); 
-  $('#mail').css('border', '');
-  }
+    $('#mail').css('border', '');
+    $('#cc-num').css('border', '');
+    $('#zip').css('border', '');
+    $('#cvv').css('border', '');
+
+}
   
   //Validates if user has entered in a name
   function validateName() {
   let x = $('#name').val();
-    if (x.length < 1) {
+     if (x.length < 1) {
   $('#name').css('border', 'solid 2px red');
-  $('#name').after('<p class = "name-error" style="background-color:Tomato;">Please enter your name.</p>');
-      return false;
+  $('#name').after('<p class = "name-error" style="background-color:red;color:black;">Please enter your name.</p>');
+           return false;
         }
   }
   
   //Validates if the user has entered in an email address
   function validateEmail() {
   let mail = $('#mail').val(); 
-  let regex = new RegExp(/^[^@]+@[^@.]+\.[a-z]+$/i);
+  let regex = RegExp(/^[^@]+@[^@.]+\.[a-z]+$/i);
   let result = regex.test(mail);
    if (result == false) {
-        $('#mail').after('<p class = "mail-error" style="background-color:Tomato;">Enter a valid email.</p>');  
+        $('#mail').after('<p class = "mail-error" style="background-color:red;color:black;">Enter a valid email.</p>');  
         $('#mail').css('border', 'solid 2px red');   
   return false;
         } 
   }
-  //Launches the functions that validate the form fields
+
+//Credit Card Information 
+
+  //Validates the CC number
+function validateCreditCardNum(){
+  let ccNum = $('#cc-num').val();  
+  let ccNumRegex = RegExp(/^\d{13,17}$/);
+  let ccNumResult = ccNumRegex.test(ccNum);
+    if (ccNumResult == false) {
+        $('#credit-card').after('<p class = "cc-num-error" style="background-color:red;color:black;">Enter a valid credit card number between 13 and 16 digits.</p>');  
+        $('#cc-num').css('border', 'solid 2px red');
+             return false;
+    }
+}
+  //Validates the CC zip
+function validateCreditCardZip(){
+  let ccZip = $('#zip').val(); 
+  let ccZipRegex = RegExp(/^\d{5}$/);
+  let ccZipResult = ccZipRegex.test(ccZip);
+     if (ccZipResult == false) {
+        $('#credit-card').after('<p class = "cc-zip-error" style="background-color:red;color:black;">Enter a valid 5 digit zip code.</p>');  
+        $('#zip').css('border', 'solid 2px red');
+             return false;
+     }
+}  
+  //Validates the CC cvv
+function validateCreditCardCvv(){
+  let ccCvv = $('#cvv').val(); 
+  let ccCvvRegex = RegExp(/^\d{3}$/);
+  let ccCvvResult = ccCvvRegex.test(ccCvv);
+    if (ccCvvResult == false) {
+        $('#credit-card').after('<p class = "cc-cvv-error" style="background-color:red;color:black;">Enter a valid 3 digit CVV code.</p>');  
+        $('#cvv').css('border', 'solid 2px red');
+             return false;
+     }
+}  
+
+
+  //Launches the functions that validate the form fields --> Can these all be inline one submit?
   $('form').submit(removeCSS);
   $('form').submit(validateName);
   $('form').submit(validateEmail);
+ $('form').submit(validateCreditCardNum);
+$('form').submit(validateCreditCardZip);
+$('form').submit(validateCreditCardCvv);
