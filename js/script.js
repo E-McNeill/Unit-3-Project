@@ -119,9 +119,9 @@ if (amount < 1 ) {
 
 /***************************Handling Conflicting Activities***************************/
 //Add class to other two payment divs for easy access. 
-var payPal = $('div.credit-card').next();
+let payPal = $('div.credit-card').next();
 payPal.addClass('PayPal');
-var bitCoin = $('div.PayPal').next();
+let bitCoin = $('div.PayPal').next();
 bitCoin.addClass('Bitcoin');
 
 // Paypal and bitcoin details hidden on load
@@ -143,8 +143,12 @@ $('#payment').change(function (){
             $('.credit-card').hide();
             $('.PayPal').hide();
             $('.Bitcoin').show(); 
-    }  else $('.credit-card').show() ;                
-        
+    } else if ($('#payment').val() == 'credit card') { // If 'bitcoin' is chosen, cc and paypal details removed.
+            $('.credit-card').show();
+            $('.PayPal').hide();
+            $('.Bitcoin').hide(); 
+              
+    }    
 });
 /***************************Field Validation***************************/
 //Removes exisitng CSS on the fields for each submit
