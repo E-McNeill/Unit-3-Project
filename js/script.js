@@ -2,7 +2,7 @@
 $('#name').focus(); //Makes the first text field in focus on page load. 
 $('#other-title').hide(); // Hides the job role box until it gets clicked
 
-//Shows and hides the job title box
+/***************************Shows and Hides the Job Title box***************************/
 $('#title').change(function (){
     if ($('#title').val() == 'other') {
         $('#other-title').show();
@@ -11,7 +11,7 @@ $('#title').change(function (){
     }
 });
 
-// Tshirt color option filter
+/***************************Tshirt color option filter***************************/
 $('#color').val('');
 $('#colors-js-puns').hide();
 $('#design').change(function (){
@@ -38,45 +38,87 @@ $('#design').change(function (){
     }
 });
 
-//Activity Cost Section
+/***************************Activity Cost Section***************************/
 let costSentence = "Your total is: $" ;
 let sentenceAppend =$('.activities').append(costSentence);
 let amountOwed = $('<p id="total" style = "display: inline-block;"></p>');
 let owedAppend = $('.activities').append(amountOwed);
-//Gives each activity a price value
+
+//Gives each activity a price value and time slot
 $('label input').addClass('workshops'); 
 $('.workshops').eq(0).val(200);
-$('.workshops').eq(1).val(100);
-$('.workshops').eq(2).val(100);
-$('.workshops').eq(3).val(100);
-$('.workshops').eq(4).val(100);
-$('.workshops').eq(5).val(100);
-$('.workshops').eq(6).val(100);
+$('.workshops').eq(1).val(100).addClass('slot1');
+$('.workshops').eq(2).val(100).addClass('slot2');
+$('.workshops').eq(3).val(100).addClass('slot1');
+$('.workshops').eq(4).val(100).addClass('slot2');
+$('.workshops').eq(5).val(100).addClass('slot3');
+$('.workshops').eq(6).val(100).addClass('slot4');
 
-//Function that adds or subtracts the total cost depending on what is selected
-$(document).ready(function() {
+//Function to add or subtracts the total cost depending on what is selected
     function updateSum() {
       var total = 0;
-      $(".workshops:checked").each(function(i, n) { total += parseInt($(n).val());})
-      $("#total").text(total);
+      $('.workshops:checked').each(function(i, n) { total += parseInt($(n).val());})
+      $('#total').text(total);
     }
-    $("input.workshops").change(updateSum);
+    $('input.workshops').change(updateSum);
     updateSum();
-})
 
+/***************************Handling Conflicting Activities***************************/
+//Time Slot #1 - JS Frameworks
+$('.workshops').change(function() {
+  if ($("input.slot1[type=checkbox]").eq(0).is(':checked')) {
+      $(".slot1").eq(1).attr("disabled", true);
+     $(".slot1").eq(1).parent().addClass('disable');
+  } else {
+ $(".slot1").eq(1).attr("disabled", false);
+$(".slot1").eq(1).parent().removeClass('disable');
+  }
+});
 
+//Time Slot #1 - Express Workshop
+$('.workshops').change(function() {
+  if ($("input.slot1[type=checkbox]").eq(1).is(':checked')) {
+      $(".slot1").eq(0).attr("disabled", true);
+     $(".slot1").eq(0).parent().addClass('disable');
+  } else {
+ $(".slot1").eq(0).attr("disabled", false);
+$(".slot1").eq(0).parent().removeClass('disable');
+  }
+});
 
+//Time Slot #2 - JS Libraries
+$('.workshops').change(function() {
+  if ($("input.slot2[type=checkbox]").eq(0).is(':checked')) {
+      $(".slot2").eq(1).attr("disabled", true);
+     $(".slot2").eq(1).parent().addClass('disable');
+  } else {
+ $(".slot2").eq(1).attr("disabled", false);
+$(".slot2").eq(1).parent().removeClass('disable');
+  }
+});
 
-//example of how to pull out the specific activity 
-/*let ad = $('.activities label')[0].textContent; 
-console.log(ad);
-VM4624:1  Main Conference — $200*/
+//Time Slot #2 - Node Workshop
+$('.workshops').change(function() {
+  if ($("input.slot2[type=checkbox]").eq(1).is(':checked')) {
+      $(".slot2").eq(0).attr("disabled", true);
+     $(".slot2").eq(0).parent().addClass('disable');
+  } else {
+ $(".slot2").eq(0).attr("disabled", false);
+$(".slot2").eq(0).parent().removeClass('disable');
+  }
+});
 
-//
+//Form submit is prevented if no activities are selected
+function CheckActivities(){
+let amount = $('input[type="checkbox"]:checked').length;
+if (amount < 1 ) {
+ $('.activities').after('<p class = "cc-num-error" style="background-color:red;color:black;">Please select at least one activity.</p>');  
+   return false;
+}  
+}
 
-
-//payment section
-//add class to other two payment divs for easy access. 
+/***************************Handling Conflicting Activities***************************/
+//Add class to other two payment divs for easy access. 
 var payPal = $('div.credit-card').next();
 payPal.addClass('PayPal');
 var bitCoin = $('div.PayPal').next();
@@ -86,9 +128,11 @@ bitCoin.addClass('Bitcoin');
 $('.PayPal').hide();
 $('.Bitcoin').hide();
 $('#payment').val('credit card');
+
 // Makes the 'select method' option non clickable. 
 $('#payment option[value="select_method"]').attr('disabled', true);
 
+//Hides and shows payment details depending on selection.
 $('#payment').change(function (){
     if ($('#payment').val() == 'paypal') { //If 'paypal' option is chosen, bitcoin and cc details removed.
             $('.credit-card').hide();
@@ -102,14 +146,14 @@ $('#payment').change(function (){
     }  else $('.credit-card').show() ;                
         
 });
-//Field Validation Section
+/***************************Field Validation***************************/
 //Removes exisitng CSS on the fields for each submit
 function removeCSS () {
     $('.name-error').remove();
     $('.mail-error').remove();
     $('#name').css('border', ''); 
     $('#mail').css('border', '');
-   $('.cc-num-error').remove();
+    $('.cc-num-error').remove();
     $('.cc-zip-error').remove();
     $('.cc-cvv-error').remove();
     $('#cc-num').css('border', '');
@@ -117,7 +161,7 @@ function removeCSS () {
     $('#cvv').css('border', '');
 
 }
-// removes credit card specific styling if bitcoin or paypal options are selected 
+// Removes credit card specific styling if bitcoin or paypal options are selected 
 $('#payment').change(function (){
 if (($('#payment').val() == 'bitcoin') || ($('#payment').val() == 'paypal')){
     $('.cc-num-error').remove();
@@ -139,8 +183,10 @@ if (($('#payment').val() == 'bitcoin') || ($('#payment').val() == 'paypal')){
         }
   }
   
-  //Validates if the user has entered in an email address
-  function validateEmail() {
+  //Validates (real time) if the user has entered in an email address
+function validateEmail() {
+$('#mail').css('border', '');
+$('.mail-error').remove(); 
   let mail = $('#mail').val(); 
   let regex = RegExp(/^[^@]+@[^@.]+\.[a-z]+$/i);
   let result = regex.test(mail);
@@ -150,10 +196,10 @@ if (($('#payment').val() == 'bitcoin') || ($('#payment').val() == 'paypal')){
   return false;
         } 
   }
+$('#mail').keyup(validateEmail);
 
-//Credit Card Information 
 
-  //Validates the CC number
+//Validates the CC number
 function validateCreditCardNum(){
   let ccNum = $('#cc-num').val();  
   let ccNumRegex = RegExp(/^\d{13,17}$/);
@@ -169,7 +215,7 @@ else if (ccNumResult == false) {
              return false;
     }
 }
-  //Validates the CC zip
+//Validates the CC zip
 function validateCreditCardZip(){
   let ccZip = $('#zip').val(); 
   let ccZipRegex = RegExp(/^\d{5}$/);
@@ -180,7 +226,7 @@ function validateCreditCardZip(){
              return false;
      }
 }  
-  //Validates the CC cvv
+//Validates the CC cvv
 function validateCreditCardCvv(){
   let ccCvv = $('#cvv').val(); 
   let ccCvvRegex = RegExp(/^\d{3}$/);
@@ -193,17 +239,18 @@ function validateCreditCardCvv(){
 }  
 
 
-  //Launches the functions that validate the form fields --> Can these all be inline one submit? 
+ /***************************Launches Functions on Form Submit***************************/
 $('form').submit(removeCSS);
 $('form').submit(validateName);
 $('form').submit(validateEmail);
-//$('#payment').change(removeCSS);
-// validates the CC info only if cc is chosen as a payment method
+$('form').submit(CheckActivities);
 
+// validates the CC info only if cc is chosen as a payment method
 $('form').submit(function () {
-if ($('#payment').val() == 'credit card'){
-validateCreditCardNum();
-validateCreditCardZip();
-validateCreditCardCvv();
-}
-                 });
+    if ($('#payment').val() == 'credit card'){
+    validateCreditCardNum();
+    validateCreditCardZip();
+    validateCreditCardCvv();
+    }    
+});
+
