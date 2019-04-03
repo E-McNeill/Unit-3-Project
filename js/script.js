@@ -205,6 +205,7 @@ $('#mail').keyup(validateEmail);
 
 //Validates the CC number
 function validateCreditCardNum(){
+if ($('#payment').val() == 'credit card'){
   let ccNum = $('#cc-num').val();  
   let ccNumRegex = RegExp(/^\d{13,17}$/);
   let ccNumResult = ccNumRegex.test(ccNum);
@@ -219,8 +220,10 @@ else if (ccNumResult == false) {
              return false;
     }
 }
+}
 //Validates the CC zip
 function validateCreditCardZip(){
+if ($('#payment').val() == 'credit card'){
   let ccZip = $('#zip').val(); 
   let ccZipRegex = RegExp(/^\d{5}$/);
   let ccZipResult = ccZipRegex.test(ccZip);
@@ -230,8 +233,11 @@ function validateCreditCardZip(){
              return false;
      }
 }  
+}
+
 //Validates the CC cvv
 function validateCreditCardCvv(){
+if ($('#payment').val() == 'credit card'){
   let ccCvv = $('#cvv').val(); 
   let ccCvvRegex = RegExp(/^\d{3}$/);
   let ccCvvResult = ccCvvRegex.test(ccCvv);
@@ -241,20 +247,17 @@ function validateCreditCardCvv(){
              return false;
      }
 }  
-
+}
 
  /***************************Launches Functions on Form Submit***************************/
 $('form').submit(removeCSS);
 $('form').submit(validateName);
 $('form').submit(validateEmail);
 $('form').submit(CheckActivities);
+$('form').submit(validateCreditCardCvv);
+$('form').submit(validateCreditCardNum);
+$('form').submit(validateCreditCardZip);
 
-// validates the CC info only if cc is chosen as a payment method
-$('form').submit(function () {
-    if ($('#payment').val() == 'credit card'){
-    validateCreditCardNum();
-    validateCreditCardZip();
-    validateCreditCardCvv();
-    }    
-});
+
+//});
 
